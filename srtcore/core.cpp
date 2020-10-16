@@ -10325,7 +10325,7 @@ int srt::CUDT::processData(CUnit* in_unit)
     if (m_bPeerRexmitFlag && was_sent_in_order)
     {
         ++m_iConsecOrderedDelivery;
-        if (m_iConsecOrderedDelivery >= 50)
+        if (0 && m_iConsecOrderedDelivery >= 50) // disable
         {
             m_iConsecOrderedDelivery = 0;
             if (m_iReorderTolerance > 0)
@@ -10399,7 +10399,7 @@ srt::CUDT::loss_seqs_t srt::CUDT::defaultPacketArrival(void* vself, CPacket& pkt
         }
     }
 
-    const int initial_loss_ttl = (self->m_bPeerRexmitFlag) ? self->m_iReorderTolerance : 0;
+    const int initial_loss_ttl = (self->m_bPeerRexmitFlag) ? self->m_iMaxReorderTolerance : 0;
 
     int seqdiff = CSeqNo::seqcmp(pkt.m_iSeqNo, self->m_iRcvCurrSeqNo);
 
@@ -10579,7 +10579,7 @@ breakbreak:;
             HLOGF(qrlog.Debug, "... arrived at TTL %d case %d", had_ttl, m_iConsecEarlyDelivery);
 
             // After 10 consecutive
-            if (m_iConsecEarlyDelivery >= 10)
+            if (0 && m_iConsecEarlyDelivery >= 10) // disable and 200
             {
                 m_iConsecEarlyDelivery = 0;
                 if (m_iReorderTolerance > 0)
